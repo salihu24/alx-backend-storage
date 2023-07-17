@@ -1,23 +1,18 @@
 #!/usr/bin/env python3
-"""
-students
-"""
+
+""" Module for using PyMongo """
 
 
 def top_students(mongo_collection):
-    """ students by score """
-    return mongo_collection.aggregate([
+    """ Returns all students sorted by average score"""
+    top_student = mongo_collection.aggregate([
         {
-            "$project":
-                {
-                    "name": "$name",
-                    "averageScore": {"$avg": "$topics.score"}
-                }
+            "$project": {
+                "name": "$name",
+                "averageScore": {"$avg": "$topics.score"}
+            }
         },
-        {
-            "$sort":
-                {
-                    "averageScore": -1
-                }
-        }
+        {"$sort": {"averageScore": -1}}
     ])
+
+    return top_student
